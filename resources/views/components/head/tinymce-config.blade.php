@@ -5,13 +5,26 @@
 <script>
   tinymce.init({
     selector: 'textarea#myeditorinstance',
-    plugins: 'ai code table lists',
-    toolbar: 'undo redo | blocks | formatselect | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'removeformat | aidialog aishortcuts | help',
+    plugins: [
+      'a11ychecker','advlist','advcode','advtable','autolink','checklist','markdown',
+      'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+      'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount',
+      'mergetags', 'advtemplate'
+    ],
+    toolbar: 'undo redo | casechange blocks | formatting | bullist numlist checklist outdent indent | mergetags inserttemplate | a11ycheck code table help',
     height: 500,
     promotion: false,
+    menubar: false,
+    statusbar: false,
+    toolbar_groups: {
+      formatting: {
+        icon: 'format',
+        tooltip: 'Formatting',
+        items: 'bold italic underline strikethrough | forecolor backcolor | superscript subscript | alignleft aligncenter alignright alignjustify | removeformat'
+      }
+    },
+    toolbar_location: 'bottom',
+    advcode_inline: true,
     ai_request: (request, respondWith) => {
       respondWith.string(async (signal) => {
         try {
@@ -54,6 +67,69 @@
       editor.on('error', function(e) {
         console.error('TinyMCE error:', e);
       });
-    }
+    },
+    mergetags_list: [
+      {
+        title: "Contact",
+        menu: [{
+          value: 'Contact.FirstName',
+          title: 'Contact First Name'
+        },
+        {
+          value: 'Contact.LastName',
+          title: 'Contact Last Name'
+        },
+        {
+          value: 'Contact.Email',
+          title: 'Contact Email'
+        }
+        ]
+      },
+      {
+        title: "Sender",
+        menu: [{
+          value: 'Sender.FirstName',
+          title: 'Sender First Name'
+        },
+        {
+          value: 'Sender.LastName',
+          title: 'Sender Last name'
+        },
+        {
+          value: 'Sender.Email',
+          title: 'Sender Email'
+        }
+        ]
+      },
+      {
+        title: 'Subscription',
+        menu: [{
+          value: 'Subscription.UnsubscribeLink',
+          title: 'Unsubscribe Link'
+        },
+        {
+          value: 'Subscription.Preferences',
+          title: 'Subscription Preferences'
+        }
+        ]
+      }
+    ],
+    advtemplate_templates: [
+      {
+        title: "Newsletter intro",
+        content:
+          '<h1 style="font-size: 24px; color: rgb(51, 93, 255); font-family:Arial;">TinyMCE Newsletter</h1>\n<p style="font-family:Arial;">Welcome to your monthly digest of all things TinyMCE, where you\'ll find helpful tips, how-tos, and stories of how people are using rich text editing to bring their apps to new heights!</p>',
+      },
+      {
+        title: "CTA Button",
+        content:
+          '<p><a style="background-color: rgb(51, 93, 255); padding: 12px 16px; color: rgb(255, 255, 255); border-radius: 4px; text-decoration: none; display: inline-block; font-family:Arial;" href="https://tiny.cloud/pricing">Get started with your 14-day free trial</a></p>',
+      },
+      {
+        title: "Footer",
+        content:
+          '<p style="text-align: center; font-size: 10px; font-family:Arial;">You received this email at because you previously subscribed.</p>\n<p style="text-align: center; font-size: 10px; font-family:Arial;"></p>',
+      },
+    ],
   });
 </script>
