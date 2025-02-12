@@ -9,9 +9,9 @@
       'a11ychecker','advlist','advcode','advtable','autolink','checklist','markdown',
       'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
       'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount',
-      'mergetags', 'advtemplate'
+      'mergetags', 'advtemplate', 'ai'
     ],
-    toolbar: 'undo redo | casechange blocks | formatting | bullist numlist checklist outdent indent | mergetags inserttemplate | a11ycheck code table help',
+    toolbar: 'undo redo | aidialog aishortcuts | casechange blocks | formatting | bullist numlist checklist outdent indent | mergetags inserttemplate | a11ycheck code table help',
     height: 500,
     promotion: false,
     menubar: false,
