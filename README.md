@@ -58,6 +58,9 @@ php artisan serve
 
 3. Visit http://localhost:8000 in your browser
 
+   ![image](https://github.com/user-attachments/assets/6fdf13e9-324a-4e8a-a65b-a8ec5177c0fe)
+
+
 ## Features
 
 - Rich text editing with TinyMCE
