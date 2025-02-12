@@ -9,9 +9,9 @@
       'a11ychecker','advlist','advcode','advtable','autolink','checklist','markdown',
       'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
       'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount',
-      'mergetags', 'advtemplate'
+      'mergetags', 'advtemplate', 'ai'
     ],
-    toolbar: 'undo redo | casechange blocks | formatting | bullist numlist checklist outdent indent | mergetags inserttemplate | a11ycheck code table help',
+    toolbar: 'undo redo | aidialog aishortcuts | casechange blocks | formatting | bullist numlist checklist outdent indent | mergetags inserttemplate | a11ycheck code table help',
     height: 500,
     promotion: false,
     menubar: false,
@@ -28,18 +28,21 @@
     ai_request: (request, respondWith) => {
       respondWith.string(async (signal) => {
         try {
-          const response = await fetch('/ai/stream', {
+          const response = await fetch('http://localhost:11434/v1/chat/completions', {
             signal,
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              thread: request.thread,
-              system: request.system,
-              query: request.query,
-              context: request.context
+              messages: [
+                {
+                  role: "user",
+                  content: request.query
+                }
+              ],
+              model: "deepseek-r1:1.5b",
+              stream: false
             })
           });
 
@@ -53,7 +56,7 @@
             throw new Error(data.error);
           }
 
-          return data.content;
+          return data.choices[0].message.content;
         } catch (error) {
           console.error('AI request error:', error);
           throw error;
