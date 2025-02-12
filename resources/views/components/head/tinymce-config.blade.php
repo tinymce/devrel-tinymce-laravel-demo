@@ -15,18 +15,21 @@
     ai_request: (request, respondWith) => {
       respondWith.string(async (signal) => {
         try {
-          const response = await fetch('/ai/stream', {
+          const response = await fetch('http://localhost:11434/v1/chat/completions', {
             signal,
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              thread: request.thread,
-              system: request.system,
-              query: request.query,
-              context: request.context
+              messages: [
+                {
+                  role: "user",
+                  content: request.query
+                }
+              ],
+              model: "deepseek-r1:1.5b",
+              stream: false
             })
           });
 
@@ -40,7 +43,7 @@
             throw new Error(data.error);
           }
 
-          return data.content;
+          return data.choices[0].message.content;
         } catch (error) {
           console.error('AI request error:', error);
           throw error;
